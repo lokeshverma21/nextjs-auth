@@ -9,7 +9,7 @@ import { Label } from '../components/ui/label';
 import { cn } from "@/lib/utils";
 import { BackgroundBeamsWithCollision } from "../components/ui/background-beams-with-collision";
 
-function signupPage() {
+function SignupPage() {
 
     const router = useRouter()
 
@@ -34,9 +34,13 @@ function signupPage() {
             toast.success("A verification link has been sent to your email.")
 
             router.push("/login")
-        } catch (error: any) {
-            console.log("SignUp failed",error)
-            toast.error(error.message)
+        } catch (error: unknown) {
+            if (axios.isAxiosError(error)) {
+                console.log("SignUp failed",error)
+                toast.error(error.message)
+            }else{
+                toast.error("Unknown error occured")
+            }
         }finally{
             setLoading(false)
         }
@@ -44,7 +48,7 @@ function signupPage() {
 
 
     useEffect(()=>{
-        if (user.email.length > 0 && user.password.length > 0 && user.email.length > 0) {
+        if (user.email.length > 0 && user.password.length > 0 && user.username.length > 0) {
             setButtonDisabled(false)
         }else{
             setButtonDisabled(true)
@@ -146,7 +150,7 @@ const LabelInputContainer = ({
     );
 };
 
-export default signupPage
+export default SignupPage
 
 
 

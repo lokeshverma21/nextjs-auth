@@ -42,8 +42,14 @@ function ResetPasswordPage() {
 
       setSuccess(response.data.message);
       router.push('/login')
-    } catch (error: any) {
-      setError(error.response?.data?.error || "Something went wrong.");
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+              console.log(error.message);
+              setError("Something went wrong.");
+            } else {
+              console.log("An unknown error occurred");
+            setError("Something went wrong.");
+        }
     }finally{
       setLoading(false);
     }

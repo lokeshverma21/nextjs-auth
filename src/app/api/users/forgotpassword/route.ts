@@ -1,4 +1,4 @@
-import User from "@/models/userModel.js";
+import User from "@/models/userModel";
 import { NextRequest, NextResponse } from "next/server";
 import { sendEmail } from "@/helpers/mailer";
 import {connect} from "@/dbconfig/dbconfig";
@@ -24,14 +24,10 @@ export async function POST(request: NextRequest){
             success: true,
             status: 200
         })
-    } catch (error: any) {
-        return NextResponse.json(
-            {
-                error: error.message,
-            },
-            {
-                status: 400
-            }
-        )
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            return NextResponse.json({ error: error.message }, { status: 500 });
+        }
+        return NextResponse.json({ error: "An unknown error occurred in forgot password" }, { status: 500 });
     }
 }

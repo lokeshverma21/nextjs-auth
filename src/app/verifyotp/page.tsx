@@ -29,8 +29,12 @@ function VerifyOtpPage() {
     
             toast.success("OTP Verified Successfully!");
             router.push(`/reset-password?email=${encodeURIComponent(email)}`);
-        } catch (error:any) {
-            toast.error(error.response?.data?.error || "OTP verification failed");
+        } catch (error:unknown) {
+            if (axios.isAxiosError(error)) {
+              toast.error(error.response?.data?.error || "OTP verification failed");
+            }else{
+              toast.error("OTP verification failed");
+            }
         }finally {
           setLoading(false); 
         }

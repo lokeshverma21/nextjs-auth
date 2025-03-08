@@ -1,7 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import { Box, Lock, Search, Settings, Sparkles } from "lucide-react";
-import { GlowingEffect } from "../components/ui/glowing-effect";
 import Link from "next/link";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
@@ -25,9 +23,13 @@ const ForgotPasswordPage = () => {
       toast.success("OTP sent to your email!!");
 
       router.push(`/verifyotp?email=${encodeURIComponent(email)}`);
-    } catch (error: any) {
-      console.log(error.message);
-      toast.error("Failed to send OTP");
+    } catch (error: unknown) {
+        if (axios.isAxiosError(error)) {
+          console.log(error.message);
+          toast.error("Failed to send OTP");
+        }else{
+          toast.error("Something went wrong")
+        }
     }finally{
       setLoading(false);
     }

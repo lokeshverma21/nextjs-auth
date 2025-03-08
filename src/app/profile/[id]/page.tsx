@@ -4,12 +4,12 @@ import { ShootingStars } from "@/app/components/ui/shooting-stars";
 import { StarsBackground } from "@/app/components/ui/stars-background";
 import axios from "axios";
 import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React,{ useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 export default function UserProfile() {
-  const params = useParams();
+  // const params = useParams();
 
     interface UserData {
       username: string;
@@ -22,16 +22,20 @@ export default function UserProfile() {
 
     const onLogout = async () => {
     try {
-      const response = await axios.get("/api/users/logout")
+      await axios.get("/api/users/logout")
 
       toast.success("Logout successfull!!")
 
       router.push("/login")
-    } catch (error: any) {
-      console.log(error.message)
-
-      toast.error(error.message)
-    }
+    }catch (error: unknown) {
+  if (axios.isAxiosError(error)) {
+    console.log(error.message);
+    toast.error(error.message);
+  } else {
+    console.log("An unknown error occurred");
+    toast.error("An unknown error occurred");
+  }
+}
   };
 
   const getUserDetail = async () => {

@@ -1,6 +1,5 @@
 'use client'
 import axios from 'axios'
-import Link from 'next/link'
 import React,{useState, useEffect} from 'react'
 import { BackgroundLines } from "@/app/components/ui/background-lines";
 import { HoverBorderGradient } from '../components/ui/hover-border-gradient';
@@ -18,9 +17,14 @@ function VerifyEmailPage() {
             await axios.post("/api/users/verifyemail", {token})
 
             setVerified(true)
-        } catch (error: any) {
-            setError(true)
-            console.log(error.response.data)
+        } catch (err: unknown) {
+            if (axios.isAxiosError(err)) {
+                setError(err.response?.data?.message || "Verification failed.");
+            } else if (err instanceof Error) {
+                setError(true);
+            } else {
+                setError(true);
+            }
         }
     }
 

@@ -6,7 +6,13 @@ import {connect} from "@/dbconfig/dbconfig";
 
 connect();
 
-export const sendEmail = async ({ email, emailType, userId }: any) => {
+interface SendEmailProps {
+    email: string;
+    emailType: "VERIFY" | "RESET";
+    userId: string;
+  }
+
+export const sendEmail = async ({ email, emailType, userId }: SendEmailProps) => {
     try {
         // Configure Mailtrap SMTP
         const transport = nodemailer.createTransport({
@@ -19,7 +25,7 @@ export const sendEmail = async ({ email, emailType, userId }: any) => {
             }
         });
 
-        let mailOptions: { from: string; to: string; subject: string; html: string } = {
+        const mailOptions: { from: string; to: string; subject: string; html: string } = {
             from: process.env.EMAIL || "no-reply@example.com",
             to: email,
             subject: "",
@@ -174,8 +180,11 @@ export const sendEmail = async ({ email, emailType, userId }: any) => {
         // Send the email
         const mailResponse = await transport.sendMail(mailOptions);
         return mailResponse;
-    } catch (error: any) {
+    } catch (error) {
         console.error("Error sending email:", error);
-        throw new Error(error.message);
+        if (error instanceof Error) {
+            throw new Error(error.message);
+        }
+        throw new Error("An unknown error occurred");
     }
 };

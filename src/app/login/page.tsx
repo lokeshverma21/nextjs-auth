@@ -7,11 +7,6 @@ import toast from "react-hot-toast";
 import { Label } from "@/app/components/ui/label";
 import { Input } from "@/app/components/ui/input";
 import { cn } from "@/lib/utils";
-import {
-    IconBrandGithub,
-    IconBrandGoogle,
-    IconBrandOnlyfans,
-} from "@tabler/icons-react";
 import { BackgroundBeamsWithCollision } from "../components/ui/background-beams-with-collision";
 
 function LoginPage() {
@@ -36,10 +31,14 @@ function LoginPage() {
 
             toast.success("Login Successfull!!");
             router.push("/profile");
-        } catch (error: any) {
-            console.log("Login failed", error.message);
-            // toast.error(error.message);
-            toast.error("User with this email does not exists!")
+        } catch (error: unknown) {
+            if (axios.isAxiosError(error)) {
+                console.log("Login failed", error.message);
+                toast.error("User with this email does not exists!")
+            }else{
+                toast.error("User with this email does not exists!")
+            }
+
         } finally {
             setLoading(false);
         }
