@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { ReactEventHandler, useState } from "react";
 import Link from "next/link";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
@@ -13,7 +13,7 @@ const ForgotPasswordPage = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const onSubmitEmail = async (e: any) => {
+  const onSubmitEmail = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {

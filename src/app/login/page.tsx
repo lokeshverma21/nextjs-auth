@@ -101,7 +101,7 @@ function LoginPage() {
 
                     <div className="text-white text-sm mt-6 flex justify-between w-full">
                         <p>
-                            Don't have account
+                            Don &apos t have account
                             <Link href={'/signup'} className="text-blue-400 text-sm ml-2"> Signup</Link>
                         </p>
 

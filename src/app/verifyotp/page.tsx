@@ -20,7 +20,7 @@ function VerifyOtpPage() {
     const [otp, setOtp] = useState("")
     const [loading, setLoading] = useState(false);
 
-    const onSubmitOTP = async (e:any) => {
+    const onSubmitOTP = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
     

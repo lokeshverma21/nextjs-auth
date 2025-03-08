@@ -7,7 +7,6 @@ import {
   IconHome,
   IconKey,
   IconLogin2,
-  IconTerminal2,
   IconWorld,
 } from "@tabler/icons-react";
 

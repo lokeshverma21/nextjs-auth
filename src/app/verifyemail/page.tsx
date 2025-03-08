@@ -32,7 +32,7 @@ function VerifyEmailPage() {
         const urlParams = new URLSearchParams(window.location.search);
         const urlToken = urlParams.get("token");
         setToken(urlToken || "");
-    }, []);
+    });
     
     useEffect(() => {
         if(token.length > 0){

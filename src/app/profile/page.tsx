@@ -1,16 +1,14 @@
 "use client"
 import axios from 'axios';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
-import toast from 'react-hot-toast';
 import { motion } from "framer-motion";
 import { LampContainer } from "@/app/components/ui/lamp";
 import { HoverBorderGradient } from '../components/ui/hover-border-gradient';
 
 function ProfilePage() {
 
-  const router = useRouter();
+  // const router = useRouter();
   const [data, setData] = useState("nothing")
 
   // const onLogout = async () => {
