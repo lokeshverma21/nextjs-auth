@@ -1,6 +1,5 @@
 "use client"
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { motion } from "framer-motion";
 import { LampContainer } from "@/app/components/ui/lamp";

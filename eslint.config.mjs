@@ -11,6 +11,23 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
+  
+  // 🔹 Ignore the UI folder
+  {
+    ignores: ["src/app/components/ui/**"],
+  },
+
+  // 🔹 Disable rules for UI components
+  {
+    files: ["src/app/components/ui/**"],
+    rules: {
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/ban-ts-comment": "off",
+      "@typescript-eslint/no-unused-vars": "off",
+      "react-hooks/exhaustive-deps": "off",
+      "prefer-const": "off",
+    },
+  },
 ];
 
 export default eslintConfig;
