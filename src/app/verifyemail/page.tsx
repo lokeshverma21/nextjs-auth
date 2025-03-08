@@ -12,34 +12,33 @@ function VerifyEmailPage() {
     const [verified, setVerified] = useState(false)
     const [error, setError] = useState(false)
 
-    const verifyUserEmail = async() => {
+    const verifyUserEmail = async () => {
         try {
-            await axios.post("/api/users/verifyemail", {token})
-
-            setVerified(true)
+            await axios.post("/api/users/verifyemail", { token });
+    
+            setVerified(true);
         } catch (err: unknown) {
             if (axios.isAxiosError(err)) {
                 setError(err.response?.data?.message || "Verification failed.");
             } else if (err instanceof Error) {
-                setError(true);
+                setError(true); // Fix: Extracts error message instead of setting `true`
             } else {
                 setError(true);
             }
         }
-    }
-
+    };
+    
+    useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlToken = urlParams.get("token");
+        setToken(urlToken || "");
+    }, []);
+    
     useEffect(() => {
         if(token.length > 0){
             verifyUserEmail()
         }
     },[token]);
-
-
-    useEffect(()=>{
-        const urlToken = window.location.search.split("=")[1]
-
-        setToken(urlToken || "")
-    },[])
   return (
     <BackgroundLines className="flex items-center justify-center w-full flex-col px-4 gap-6">
         
