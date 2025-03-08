@@ -11,7 +11,6 @@ import {
   IconWorld,
 } from "@tabler/icons-react";
 
-import Image from "next/image";
 
 function Navbar() {
 
