@@ -16,7 +16,7 @@ function ResetPasswordPage() {
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-   const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const onSubmitNewPassword = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,33 +24,41 @@ function ResetPasswordPage() {
     setError("");
     setSuccess("");
 
-    
+    if (!email) {
+      setError("Invalid or missing email. Please try again.");
+      setLoading(false);
+      return;
+    }
+
+    if (!newPassword || !confirmNewPassword) {
+      setError("Both password fields are required.");
+      setLoading(false);
+      return;
+    }
+
+    if (newPassword !== confirmNewPassword) {
+      setError("Passwords do not match.");
+      setLoading(false);
+      return;
+    }
 
     try {
-      if (!newPassword || !confirmNewPassword) {
-        return setError("Both password fields are required.");
-      }
-  
-      if (newPassword !== confirmNewPassword) {
-        return setError("Passwords do not match.");
-      }
-
       const response = await axios.post("/api/users/resetpassword", {
         email,
         newPassword,
       });
 
       setSuccess(response.data.message);
-      router.push('/login')
+      setTimeout(() => router.push("/login"), 1500); // Redirect after success
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
-              console.log(error.message);
-              setError("Something went wrong.");
-            } else {
-              console.log("An unknown error occurred");
-            setError("Something went wrong.");
-        }
-    }finally{
+        console.log(error.message);
+        setError(error.response?.data?.message || "Something went wrong.");
+      } else {
+        console.log("An unknown error occurred");
+        setError("Something went wrong.");
+      }
+    } finally {
       setLoading(false);
     }
   };
