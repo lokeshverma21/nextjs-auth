@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Label } from '../components/ui/label';
 import { Input } from '../components/ui/input';
 import Link from 'next/link';
@@ -13,12 +13,21 @@ import { useSearchParams } from "next/navigation";
 function VerifyOtpPage() {
 
     const searchParams = useSearchParams();
-    const email = searchParams.get("email") || "";
-    console.log(email)
+    // const email = searchParams.get("email") || "";
+    // console.log(email)
 
     const router = useRouter()
     const [otp, setOtp] = useState("")
     const [loading, setLoading] = useState(false);
+    const [email, setEmail] = useState("")
+
+
+    useEffect(() => {
+      setEmail(searchParams.get("email") || "");
+      console.log(email)
+    },[searchParams])
+
+    // console.log(email)
 
     const onSubmitOTP = async (e: React.FormEvent) => {
         e.preventDefault();

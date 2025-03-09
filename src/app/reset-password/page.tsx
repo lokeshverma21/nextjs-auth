@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { cn } from "@/lib/utils";
@@ -10,13 +10,20 @@ import axios from "axios";
 function ResetPasswordPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const email = searchParams.get("email") || "";
+  // const email = searchParams.get("email") || "";
 
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("")
+
+  
+      useEffect(() => {
+        setEmail(searchParams.get("email") || "");
+        console.log(email)
+      },[searchParams])
 
   const onSubmitNewPassword = async (e: React.FormEvent) => {
     e.preventDefault();
