@@ -1,29 +1,25 @@
 "use client";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { cn } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
 
-function ResetPasswordPage() {
+function ResetPasswordComponent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  // const email = searchParams.get("email") || "";
-
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState("")
+  const [email, setEmail] = useState("");
 
-  
-      useEffect(() => {
-        setEmail(searchParams.get("email") || "");
-        console.log(email)
-      },[searchParams])
+  useEffect(() => {
+    setEmail(searchParams.get("email") || "");
+  }, [searchParams]);
 
   const onSubmitNewPassword = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,13 +52,11 @@ function ResetPasswordPage() {
       });
 
       setSuccess(response.data.message);
-      setTimeout(() => router.push("/login"), 1500); // Redirect after success
+      setTimeout(() => router.push("/login"), 1500);
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
-        console.log(error.message);
         setError(error.response?.data?.message || "Something went wrong.");
       } else {
-        console.log("An unknown error occurred");
         setError("Something went wrong.");
       }
     } finally {
@@ -109,7 +103,7 @@ function ResetPasswordPage() {
           </LabelInputContainer>
 
           <button
-            className="bg-gradient-to-br mt-4 cursor-pointer relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
+            className="bg-gradient-to-br mt-4 cursor-pointer relative group/btn from-black to-neutral-600 dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow"
             type="submit"
             disabled={loading}
           >
@@ -128,14 +122,14 @@ function ResetPasswordPage() {
   );
 }
 
-const LabelInputContainer = ({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) => {
+export default function ResetPasswordPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ResetPasswordComponent />
+    </Suspense>
+  );
+}
+
+const LabelInputContainer = ({ children, className }: { children: React.ReactNode; className?: string }) => {
   return <div className={cn("flex flex-col space-y-2 w-full", className)}>{children}</div>;
 };
-
-export default ResetPasswordPage;
